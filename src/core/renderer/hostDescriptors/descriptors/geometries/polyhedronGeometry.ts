@@ -22,10 +22,12 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IPolyhedronGeometryProps>()(
     PolyhedronGeometry,
     PolyhedronBufferGeometry,
-    "vertices",
-    "indices",
-    "radius",
-    "detail",
+    [
+      "vertices",
+      "indices",
+      "radius",
+      "detail",
+    ],
   );
 
 export default geometryDescriptor;

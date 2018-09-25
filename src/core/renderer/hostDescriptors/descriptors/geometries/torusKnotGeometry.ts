@@ -24,12 +24,14 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ITorusKnotGeometryProps>()(
     TorusKnotGeometry,
     TorusKnotBufferGeometry,
-    "radius",
-    "tube",
-    "tubularSegments",
-    "radialSegments",
-    "p",
-    "q",
+    [
+      "radius",
+      "tube",
+      "tubularSegments",
+      "radialSegments",
+      "p",
+      "q",
+    ],
   );
 
 export default geometryDescriptor;

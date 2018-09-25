@@ -19,9 +19,11 @@ declare global {
 export const geometryDescriptor =
   createGeometryDescriptor<IParametricGeometryProps>()(
     ParametricGeometry,
-    "func",
-    "slices",
-    "stacks",
+    [
+      "func",
+      "slices",
+      "stacks",
+    ],
   );
 
 export default geometryDescriptor;

@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IDodecahedronGeometryProps>()(
     DodecahedronGeometry,
     DodecahedronBufferGeometry,
-    "radius",
-    "detail",
+    [
+      "radius",
+      "detail",
+    ],
   );
 
 export default geometryDescriptor;

@@ -23,11 +23,13 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ITubeGeometryProps>()(
     TubeGeometry,
     TubeBufferGeometry,
-    "path",
-    "tubularSegments",
-    "radius",
-    "radiusSegments",
-    "closed",
+    [
+      "path",
+      "tubularSegments",
+      "radius",
+      "radiusSegments",
+      "closed",
+    ],
   );
 
 export default geometryDescriptor;

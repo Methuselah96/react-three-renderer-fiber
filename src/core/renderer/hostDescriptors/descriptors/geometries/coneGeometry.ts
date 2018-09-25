@@ -25,13 +25,15 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IConeGeometryProps>()(
     ConeGeometry,
     ConeBufferGeometry,
-    "radius",
-    "height",
-    "radialSegments",
-    "heightSegments",
-    "openEnded",
-    "thetaStart",
-    "thetaLength",
+    [
+      "radius",
+      "height",
+      "radialSegments",
+      "heightSegments",
+      "openEnded",
+      "thetaStart",
+      "thetaLength",
+    ],
   );
 
 export default geometryDescriptor;

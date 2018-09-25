@@ -25,13 +25,15 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ISphereGeometryProps>()(
     SphereGeometry,
     SphereBufferGeometry,
-    "radius",
-    "widthSegments",
-    "heightSegments",
-    "phiStart",
-    "phiLength",
-    "thetaStart",
-    "thetaLength",
+    [
+      "radius",
+      "widthSegments",
+      "heightSegments",
+      "phiStart",
+      "phiLength",
+      "thetaStart",
+      "thetaLength",
+    ],
   );
 
 export default geometryDescriptor;

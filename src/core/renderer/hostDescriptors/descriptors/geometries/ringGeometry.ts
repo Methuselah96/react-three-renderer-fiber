@@ -24,12 +24,14 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IRingGeometryProps>()(
     RingGeometry,
     RingBufferGeometry,
-    "innerRadius",
-    "outerRadius",
-    "thetaSegments",
-    "phiSegments",
-    "thetaStart",
-    "thetaLength",
+    [
+      "innerRadius",
+      "outerRadius",
+      "thetaSegments",
+      "phiSegments",
+      "thetaStart",
+      "thetaLength",
+    ],
   );
 
 export default geometryDescriptor;

@@ -24,12 +24,14 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IBoxGeometryProps>()(
   BoxGeometry,
   BoxBufferGeometry,
-  "width",
-  "height",
-  "depth",
-  "widthSegments",
-  "heightSegments",
-  "depthSegments",
+  [
+    "width",
+    "height",
+    "depth",
+    "widthSegments",
+    "heightSegments",
+    "depthSegments",
+  ],
 );
 
 export default geometryDescriptor;

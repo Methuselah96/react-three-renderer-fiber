@@ -23,11 +23,13 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ITorusGeometryProps>()(
     TorusGeometry,
     TorusBufferGeometry,
-    "radius",
-    "tube",
-    "radialSegments",
-    "tubularSegments",
-    "arc",
+    [
+      "radius",
+      "tube",
+      "radialSegments",
+      "tubularSegments",
+      "arc",
+    ],
   );
 
 export default geometryDescriptor;

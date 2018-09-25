@@ -26,14 +26,16 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ICylinderGeometryProps>()(
     CylinderGeometry,
     CylinderBufferGeometry,
-    "radiusTop",
-    "radiusBottom",
-    "height",
-    "radialSegments",
-    "heightSegments",
-    "openEnded",
-    "thetaStart",
-    "thetaLength",
+    [
+      "radiusTop",
+      "radiusBottom",
+      "height",
+      "radialSegments",
+      "heightSegments",
+      "openEnded",
+      "thetaStart",
+      "thetaLength",
+    ],
   );
 
 export default geometryDescriptor;
