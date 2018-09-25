@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IIcosahedronGeometryProps>()(
     IcosahedronGeometry,
     IcosahedronBufferGeometry,
-    "radius",
-    "detail",
+    [
+      "radius",
+      "detail",
+    ],
   );
 
 export default geometryDescriptor;

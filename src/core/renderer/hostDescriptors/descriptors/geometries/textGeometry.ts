@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ITextGeometryProps>()(
     TextGeometry,
     TextBufferGeometry,
-    "text",
-    "parameters",
+    [
+      "text",
+      "parameters",
+    ],
   );
 
 export default geometryDescriptor;

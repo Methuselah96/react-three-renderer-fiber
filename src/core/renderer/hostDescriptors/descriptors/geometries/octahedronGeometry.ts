@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IOctahedronGeometryProps>()(
     OctahedronGeometry,
     OctahedronBufferGeometry,
-    "radius",
-    "detail",
+    [
+      "radius",
+      "detail",
+    ],
   );
 
 export default geometryDescriptor;

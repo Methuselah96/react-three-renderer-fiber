@@ -22,10 +22,12 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ICircleGeometryProps>()(
     CircleGeometry,
     CircleBufferGeometry,
-    "radius",
-    "segments",
-    "thetaStart",
-    "thetaLength",
+    [
+      "radius",
+      "segments",
+      "thetaStart",
+      "thetaLength",
+    ],
   );
 
 export default geometryDescriptor;

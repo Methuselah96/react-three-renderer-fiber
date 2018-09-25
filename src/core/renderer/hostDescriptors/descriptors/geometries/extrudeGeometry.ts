@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IExtrudeGeometryProps>()(
     ExtrudeGeometry,
     ExtrudeBufferGeometry,
-    "shapes",
-    "options",
+    [
+      "shapes",
+      "options",
+    ],
   );
 
 export default geometryDescriptor;

@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ITetrahedronGeometryProps>()(
     TetrahedronGeometry,
     TetrahedronBufferGeometry,
-    "radius",
-    "detail",
+    [
+      "radius",
+      "detail",
+    ],
   );
 
 export default geometryDescriptor;

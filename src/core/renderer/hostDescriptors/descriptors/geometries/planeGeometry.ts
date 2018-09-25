@@ -22,10 +22,12 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IPlaneGeometryProps>()(
     PlaneGeometry,
     PlaneBufferGeometry,
-    "width",
-    "height",
-    "widthSegments",
-    "heightSegments",
+    [
+      "width",
+      "height",
+      "widthSegments",
+      "heightSegments",
+    ],
   );
 
 export default geometryDescriptor;

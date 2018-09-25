@@ -22,10 +22,12 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<ILatheGeometryProps>()(
     LatheGeometry,
     LatheBufferGeometry,
-    "points",
-    "segments",
-    "phiStart",
-    "phiLength",
+    [
+      "points",
+      "segments",
+      "phiStart",
+      "phiLength",
+    ],
   );
 
 export default geometryDescriptor;

@@ -20,8 +20,10 @@ export const { bufferGeometryDescriptor, geometryDescriptor } =
   createGeometryAndBufferGeometryDescriptors<IShapeGeometryProps>()(
     ShapeGeometry,
     ShapeBufferGeometry,
-    "shapes",
-    "curveSegments",
+    [
+      "shapes",
+      "curveSegments",
+    ],
   );
 
 export default geometryDescriptor;

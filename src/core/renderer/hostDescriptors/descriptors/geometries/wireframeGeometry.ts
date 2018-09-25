@@ -17,7 +17,9 @@ declare global {
 export const bufferGeometryDescriptor =
   createGeometryDescriptor<IWireframeGeometryProps>()(
     WireframeGeometry,
-    "geometry",
+    [
+      "geometry",
+    ],
   );
 
 export default bufferGeometryDescriptor;
