@@ -2,19 +2,13 @@ import {BufferGeometry, Geometry} from "three";
 import {GeometryContainerType, GeometryWrapperBase} from "./geometryBase";
 import {WrappedEntityDescriptor} from "./ObjectWrapper";
 
-interface IPropSettings<TKey> {
-  propName: TKey;
-  requiresRemount?: boolean;
-}
-type PropSettingsParameter<TKey> = TKey | IPropSettings<TKey>;
-
 export function createGeometryDescriptor<TProps>() {
   function create<
     TInstance extends Geometry | BufferGeometry,
     TKey1 extends Extract<keyof TProps, string>,
   >(
     geometryClass: new (param1: TProps[TKey1]) => TInstance,
-    props: [PropSettingsParameter<TKey1>],
+    constructorArgs: [TKey1],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -22,7 +16,7 @@ export function createGeometryDescriptor<TProps>() {
     TKey2 extends Extract<keyof TProps, string>,
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>],
+    constructorArgs: [TKey1, TKey2],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -31,7 +25,7 @@ export function createGeometryDescriptor<TProps>() {
     TKey3 extends Extract<keyof TProps, string>,
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>],
+    constructorArgs: [TKey1, TKey2, TKey3],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -42,8 +36,7 @@ export function createGeometryDescriptor<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                         param4: TProps[TKey4]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>,
-      PropSettingsParameter<TKey4>],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -55,8 +48,7 @@ export function createGeometryDescriptor<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                         param4: TProps[TKey4], param5: TProps[TKey5]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>,
-      PropSettingsParameter<TKey4>, PropSettingsParameter<TKey5>],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -69,8 +61,7 @@ export function createGeometryDescriptor<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                         param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>,
-      PropSettingsParameter<TKey4>, PropSettingsParameter<TKey5>, PropSettingsParameter<TKey6>],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -85,9 +76,7 @@ export function createGeometryDescriptor<TProps>() {
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                         param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6],
                         param7: TProps[TKey7]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>,
-      PropSettingsParameter<TKey4>, PropSettingsParameter<TKey5>, PropSettingsParameter<TKey6>,
-      PropSettingsParameter<TKey7>],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7],
   ): any;
   function create<
     TInstance extends Geometry | BufferGeometry,
@@ -103,16 +92,14 @@ export function createGeometryDescriptor<TProps>() {
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                         param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6],
                         param7: TProps[TKey7], param8: TProps[TKey8]) => TInstance,
-    props: [PropSettingsParameter<TKey1>, PropSettingsParameter<TKey2>, PropSettingsParameter<TKey3>,
-      PropSettingsParameter<TKey4>, PropSettingsParameter<TKey5>, PropSettingsParameter<TKey6>,
-      PropSettingsParameter<TKey7>, PropSettingsParameter<TKey8>],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TKey8],
   ): any;
   function create<TInstance extends Geometry | BufferGeometry>(
     geometryClass: new (...args: Array<TProps[Extract<keyof TProps, string>]>) => TInstance,
-    testProps: Array<PropSettingsParameter<Extract<keyof TProps, string>>>) {
+    constructorArgs: Array<Extract<keyof TProps, string>>) {
     class GeneratedGeometryWrapper extends GeometryWrapperBase<TProps, TInstance> {
       protected constructGeometry(props: TProps): TInstance {
-        return new geometryClass(...testProps.map((arg) => props[arg]));
+        return new geometryClass(...constructorArgs.map((arg) => props[arg]));
       }
     }
 
@@ -123,7 +110,7 @@ export function createGeometryDescriptor<TProps>() {
       constructor() {
         super(GeneratedGeometryWrapper, geometryClass);
 
-        this.hasRemountProps(...remountProps);
+        this.hasRemountProps(...constructorArgs);
       }
     };
   }
@@ -139,7 +126,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1]) => TBufferInstance,
-    remountProps: [TKey1],
+    constructorArgs: [TKey1],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -149,7 +136,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2]) => TBufferInstance,
-    remountProps: [TKey1, TKey2],
+    constructorArgs: [TKey1, TKey2],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -160,7 +147,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
   >(
     geometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3],
+    constructorArgs: [TKey1, TKey2, TKey3],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -174,7 +161,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
                         param4: TProps[TKey4]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                               param4: TProps[TKey4]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3, TKey4],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -189,7 +176,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
                         param4: TProps[TKey4], param5: TProps[TKey5]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                               param4: TProps[TKey4], param5: TProps[TKey5]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3, TKey4, TKey5],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -205,7 +192,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
                         param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6]) => TInstance,
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                               param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -224,7 +211,7 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                               param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6],
                               param7: TProps[TKey7]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7],
   ): any;
   function create<
     TInstance extends Geometry,
@@ -244,20 +231,20 @@ export function createGeometryAndBufferGeometryDescriptors<TProps>() {
     bufferGeometryClass: new (param1: TProps[TKey1], param2: TProps[TKey2], param3: TProps[TKey3],
                               param4: TProps[TKey4], param5: TProps[TKey5], param6: TProps[TKey6],
                               param7: TProps[TKey7], param8: TProps[TKey8]) => TBufferInstance,
-    remountProps: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TKey8],
+    constructorArgs: [TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TKey8],
   ): any;
   function create<TInstance extends Geometry, TBufferInstance extends BufferGeometry>(
     geometryClass: new (...args: Array<TProps[Extract<keyof TProps, string>]>) => TInstance,
     bufferGeometryClass: new (...args: Array<TProps[Extract<keyof TProps, string>]>) => TBufferInstance,
-    remountProps: Array<Extract<keyof TProps, string>>) {
+    constructorArgs: Array<Extract<keyof TProps, string>>) {
     return {
       bufferGeometryDescriptor: createGeometryDescriptor<TProps>()(
         bufferGeometryClass,
-        remountProps as [Extract<keyof TProps, string>],
+        constructorArgs as [Extract<keyof TProps, string>],
       ),
       geometryDescriptor: createGeometryDescriptor<TProps>()(
         geometryClass,
-        remountProps as [Extract<keyof TProps, string>],
+        constructorArgs as [Extract<keyof TProps, string>],
       ),
     };
   }
