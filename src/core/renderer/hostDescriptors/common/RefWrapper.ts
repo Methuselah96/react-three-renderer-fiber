@@ -13,7 +13,7 @@ export class PropertyWrapper<TInstance, TProp> {
   public onRender: ((instance: TInstance, prop: TProp) => void) | null = null;
 
   public constructor(public propertyName: string,
-                     public rawTypes: Array<new (...args: any[]) => any>,
+                     public rawTypes: Array<new (...args: any[]) => TProp>,
                      public rawTypeUpdateFunction: (instance: TInstance, newValue: TProp) => void) {
   }
 
@@ -43,8 +43,7 @@ function containToInstance<TInstance>(instance: TInstance): TInstance {
 }
 
 function wrapperContainsRawType(wrapper: PropertyWrapper<any, any>, value: any) {
-  return wrapper.rawTypes.some((wrapperType) => value instanceof wrapperType
-    || (value.wrappedObject && value.wrappedObject instanceof wrapperType));
+  return wrapper.rawTypes.some((wrapperType) => value instanceof wrapperType);
 }
 
 export class RefWrapperBase {
