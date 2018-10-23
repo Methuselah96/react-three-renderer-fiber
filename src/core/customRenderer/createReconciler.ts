@@ -170,6 +170,9 @@ export class CustomReconcilerConfig<TDescriptor extends IHostDescriptor<any, any
   }
 
   public getPublicInstance(instance: any) {
+    if (instance.wrappedObject) {
+      return instance.wrappedObject;
+    }
     return instance;
   }
 

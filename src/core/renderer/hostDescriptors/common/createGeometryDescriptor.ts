@@ -1,6 +1,6 @@
 import {BufferGeometry, Geometry} from "three";
-import {GeometryContainerType, GeometryWrapperBase} from "./geometryBase";
-import {WrappedEntityDescriptor} from "./ObjectWrapper";
+import {GeometryContainerType, GeometryWrapperBase} from "./newGeometryBase";
+import {WrappedObjectDescriptor} from "./NewObjectWrapper";
 
 export function createGeometryDescriptor<TProps>() {
   function create<
@@ -103,8 +103,8 @@ export function createGeometryDescriptor<TProps>() {
       }
     }
 
-    return class GeneratedGeometryDescriptor extends WrappedEntityDescriptor<GeneratedGeometryWrapper,
-      TProps,
+    return class GeneratedGeometryDescriptor extends WrappedObjectDescriptor<TProps,
+      GeneratedGeometryWrapper,
       TInstance,
       GeometryContainerType> {
       constructor() {

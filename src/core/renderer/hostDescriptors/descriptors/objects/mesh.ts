@@ -5,11 +5,11 @@ import {
   MaterialParameters,
   Mesh,
   MeshDepthMaterial,
-  MeshMaterialType,
 } from "three";
 import {IThreeElementPropsBase} from "../../common/IReactThreeRendererElement";
+import {ObjectWrapper} from "../../common/NewObjectWrapper";
 import {default as Object3DDescriptorBase, IObject3DProps} from "../../common/object3DBase";
-import {IRenderableProp, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapper";
+import {IRenderableProp, PropertyWrapper, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapper";
 
 // tslint:disable-next-line
 export interface ITestProps<TInstance> {
@@ -21,7 +21,7 @@ export interface IGeometryElementProps extends ITestProps<Geometry> {
 
 export interface IMeshProps extends IObject3DProps {
   geometry?: IRenderableProp<Geometry, IGeometryElementProps>;
-  material?: IRenderableProp<MeshMaterialType, MaterialParameters>;
+  material?: IRenderableProp<Material, MaterialParameters>;
 }
 
 declare global {
@@ -32,7 +32,7 @@ declare global {
   }
 }
 
-export type MeshChildType = Geometry | BufferGeometry | MeshMaterialType;
+export type MeshChildType = Geometry | BufferGeometry | Material;
 
 class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildType> {
   constructor() {
@@ -49,7 +49,7 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
 
   public createInstance(props: IMeshProps) {
     let geometry: Geometry | BufferGeometry | undefined;
-    let material: MeshMaterialType | undefined;
+    let material: Material | undefined;
 
     if (props.geometry instanceof Geometry || props.geometry instanceof BufferGeometry) {
       geometry = props.geometry;
@@ -62,9 +62,12 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
     return new Mesh(geometry, material);
   }
 
-  public appendInitialChild(instance: Mesh, child: MeshChildType): void {
-    if (child instanceof Geometry || child instanceof BufferGeometry) {
-      instance.geometry = child;
+  public appendInitialChild(instance: Mesh, child: any): void {
+    const objectWrapper = child as ObjectWrapper<any, any>;
+    if (objectWrapper.wrappedObject) {
+      if (objectWrapper.wrappedObject instanceof Geometry || objectWrapper.wrappedObject instanceof BufferGeometry) {
+        instance.geometry = objectWrapper.wrappedObject;
+      }
     } else if ((child as any) instanceof Material) {
       // Materials can take care of themselves
     } else {
@@ -72,9 +75,12 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
     }
   }
 
-  public appendChild(instance: Mesh, child: MeshChildType): void {
-    if (child instanceof Geometry || child instanceof BufferGeometry) {
-      instance.geometry = child;
+  public appendChild(instance: Mesh, child: any): void {
+    const objectWrapper = child as ObjectWrapper<any, any>;
+    if (objectWrapper.wrappedObject) {
+      if (objectWrapper.wrappedObject instanceof Geometry || objectWrapper.wrappedObject instanceof BufferGeometry) {
+        instance.geometry = objectWrapper.wrappedObject;
+      }
     } else if ((child as any) instanceof Material) {
       // Materials can take care of themselves
     } else {
@@ -82,10 +88,12 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
     }
   }
 
-  public insertBefore(instance: Mesh, child: MeshChildType, before: any): void {
-
-    if (child instanceof Geometry || child instanceof BufferGeometry) {
-      instance.geometry = child;
+  public insertBefore(instance: Mesh, child: any, before: any): void {
+    const objectWrapper = child as ObjectWrapper<any, any>;
+    if (objectWrapper.wrappedObject) {
+      if (objectWrapper.wrappedObject instanceof Geometry || objectWrapper.wrappedObject instanceof BufferGeometry) {
+        instance.geometry = objectWrapper.wrappedObject;
+      }
     } else if ((child as any) instanceof Material) {
       // Materials can take care of themselves
     } else {
@@ -93,9 +101,12 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
     }
   }
 
-  public removeChild(instance: Mesh, child: MeshChildType): void {
-    if (child instanceof Geometry || child instanceof BufferGeometry) {
-      instance.geometry = null as any;
+  public removeChild(instance: Mesh, child: any): void {
+    const objectWrapper = child as ObjectWrapper<any, any>;
+    if (objectWrapper.wrappedObject) {
+      if (objectWrapper.wrappedObject instanceof Geometry || objectWrapper.wrappedObject instanceof BufferGeometry) {
+        instance.geometry = null as any;
+      }
     } else if ((child as any) instanceof Material) {
       // Materials can take care of themselves
     } else {
