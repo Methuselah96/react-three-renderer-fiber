@@ -9,7 +9,7 @@ import {
 import {IThreeElementPropsBase} from "../../common/IReactThreeRendererElement";
 import {ObjectWrapper} from "../../common/NewObjectWrapper";
 import {default as Object3DDescriptorBase, IObject3DProps} from "../../common/object3DBase";
-import {IRenderableProp, PropertyWrapper, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapper";
+import {IRenderableProp, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapper";
 
 // tslint:disable-next-line
 export interface ITestProps<TInstance> {
