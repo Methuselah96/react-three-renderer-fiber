@@ -43,9 +43,7 @@ class DirectionalLightDescriptor
           (instance: DirectionalLight, newValue) => {
             instance.shadow.copy(newValue);
             console.log("setting shadow?", newValue);
-          }), (instance) => {
-          return instance;
-        },
+          }),
       );
   }
 

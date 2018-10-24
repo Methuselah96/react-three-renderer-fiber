@@ -36,10 +36,10 @@ class DirectionalLightShadowDescriptor extends ReactThreeRendererDescriptor<IDir
     new RefWrapper(["camera"], this)
       .wrapProperty(new PropertyWrapper("camera",
         [OrthographicCamera], (instance: DirectionalLightShadow, newValue) => {
-          instance.camera.copy(newValue);
+          instance.camera.copy(newValue as any);
         }).OnRender((instance, prop) => {
         if (instance !== null) {
-          instance.camera.copy(prop);
+          instance.camera.copy(prop as any);
         }
       }));
 

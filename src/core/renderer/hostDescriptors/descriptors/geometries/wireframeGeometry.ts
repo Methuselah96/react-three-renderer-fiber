@@ -2,7 +2,8 @@ import {BufferGeometry, Geometry, WireframeGeometry} from "three";
 import {GeometryContainerType, GeometryWrapperBase} from "../../common/geometryBase";
 import {IThreeElementPropsBase} from "../../common/IReactThreeRendererElement";
 import {WrappedEntityDescriptor} from "../../common/ObjectWrapper";
-import {IRenderableProp, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapperTest";
+import {PropertyWrapper} from "../../common/RefWrapper";
+import {IRenderableProp, RefWrapper} from "../../common/RefWrapper";
 import {IGeometryElementProps} from "../objects/mesh";
 
 export interface IWireframeGeometryProps {
@@ -19,7 +20,8 @@ declare global {
 
 class WireframeGeometryWrapper extends GeometryWrapperBase<IWireframeGeometryProps, WireframeGeometry> {
   protected constructGeometry(props: IWireframeGeometryProps): WireframeGeometry {
-    return new WireframeGeometry(new BufferGeometry());
+    if (props.geometry) { return new WireframeGeometry(props.geometry as any); }
+    return new (WireframeGeometry as any)();
   }
 }
 
@@ -28,8 +30,15 @@ export default class WireframeGeometryDescriptor extends WrappedEntityDescriptor
   WireframeGeometry,
   GeometryContainerType> {
   constructor() {
-    super(WireframeGeometryWrapper, WireframeGeometry);
+    super(WireframeGeometryWrapper, WireframeGeometry, true);
     new RefWrapper(["geometry"], this)
-      .wrapProperty(new SimplePropertyWrapper("geometry", [Geometry, BufferGeometry]));
+      .wrapProperty(new PropertyWrapper<WireframeGeometry, IWireframeGeometryProps>("geometry",
+        [Geometry, BufferGeometry], (instance, geometry) => {
+        this.remountTrigger(instance, undefined, undefined, { geometry });
+      }).OnRender((instance, geometry) => {
+        if (instance && geometry) {
+          this.remountTrigger(instance, undefined, undefined, { geometry });
+        }
+      }), false);
   }
 }

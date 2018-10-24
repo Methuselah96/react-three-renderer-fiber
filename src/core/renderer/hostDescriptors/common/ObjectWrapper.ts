@@ -1,5 +1,4 @@
 import {CustomReconcilerConfig} from "../../../customRenderer/createReconciler";
-import final from "../../../customRenderer/decorators/final";
 import PropertyGroupDescriptor from "./properties/R3RPropertyGroupDescriptor";
 import ReactThreeRendererPropertyDescriptor from "./properties/ReactThreeRendererPropertyDescriptor";
 import ReactThreeRendererDescriptor from "./ReactThreeRendererDescriptor";
@@ -161,8 +160,8 @@ export class WrappedEntityDescriptor<TWrapper extends WrapperDetails<TProps, TIn
   TChild> {
   protected remountTrigger: (instance: TInstance,
                              newValue: any,
-                             oldProps: TProps,
-                             newProps: TProps) => void;
+                             oldProps: any,
+                             newProps: any) => void;
 
   constructor(private wrapperType: IWrapperType<TProps, TInstance, TWrapper>,
               private typeToWrap: any,
@@ -190,8 +189,8 @@ export class WrappedEntityDescriptor<TWrapper extends WrapperDetails<TProps, TIn
 
     this.remountTrigger = (instance: TInstance,
                            newValue: any,
-                           oldProps: TProps,
-                           newProps: TProps) => {
+                           oldProps: any,
+                           newProps: any) => {
       this.wrapperType.get(instance).remount(newProps);
 
       super.applyInitialPropUpdates(instance, newProps);

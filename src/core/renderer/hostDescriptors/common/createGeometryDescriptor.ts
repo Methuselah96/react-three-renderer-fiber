@@ -1,6 +1,7 @@
-import {BufferGeometry, Geometry} from "three";
+import {BufferGeometry, Geometry, Material, MeshDepthMaterial} from "three";
 import {GeometryContainerType, GeometryWrapperBase} from "./geometryBase";
 import {WrappedEntityDescriptor} from "./ObjectWrapper";
+import {RefWrapper, SimplePropertyWrapper} from "./RefWrapper";
 
 export function createGeometryDescriptor<TProps>() {
   function create<

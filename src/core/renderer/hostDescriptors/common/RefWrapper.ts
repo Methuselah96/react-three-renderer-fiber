@@ -13,7 +13,7 @@ export class PropertyWrapper<TInstance, TProp> {
   public onRender: ((instance: TInstance, prop: TProp) => void) | null = null;
 
   public constructor(public propertyName: string,
-                     public rawTypes: Array<new (...args: any[]) => TProp>,
+                     public rawTypes: Array<new (...args: any[]) => any>,
                      public rawTypeUpdateFunction: (instance: TInstance, newValue: TProp) => void) {
   }
 
@@ -86,9 +86,7 @@ export class RefWrapperBase {
 
     const originalKey = element.key == null ? "" : element.key;
 
-    if (this.wrappedRefs[identifier] !== refFromElement) {
-      this.regenerateRef(identifier, refFromElement);
-    }
+    this.regenerateRef(identifier, refFromElement);
 
     return React.cloneElement(element, {
       key: `${identifier}${originalKey}`,
@@ -226,7 +224,7 @@ Identifiers: [${Object.keys(refWrapperBase.wrappedRefs).join(", ")}]`);
   }
 
   public wrapProperty<TInstance, TProp>(wrapper: PropertyWrapper<TInstance, any>,
-                                        containerFunction: (instance: TInstance) => any = containToInstance) {
+                                        updateInitial: boolean = true) {
     const elementIndex = this.propertyWrappers.length;
 
     this.propertyWrappers.push(wrapper);
@@ -248,12 +246,12 @@ Identifiers: [${Object.keys(refWrapperBase.wrappedRefs).join(", ")}]`);
       }
       wrapperBase.elementsCache = updatedElementCache;
 
-      ReactThreeRenderer.render(wrapperBase.elementsCache, containerFunction(instance), () => {
+      ReactThreeRenderer.render(wrapperBase.elementsCache, containToInstance(instance), () => {
         // TODO check how can value has changed?
         if ((value != null) && (wrapperContainsRawType(wrapper, value))) {
           wrapper.rawTypeUpdateFunction(instance, value);
         }
       });
-    });
+    }, updateInitial);
   }
 }
