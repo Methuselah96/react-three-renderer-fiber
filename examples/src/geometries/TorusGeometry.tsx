@@ -74,9 +74,9 @@ export class TorusGeometry extends React.Component<IProps, IState> {
         rotation={this.props.rotation}
       >
         <lineSegments
-          geometry={<wireframeGeometry
-            geometry={torusGeometry}
-          />}
+          geometry={<wireframeGeometry>
+            {torusGeometry}
+          </wireframeGeometry>}
           material={<lineBasicMaterial
             color={0xffffff}
             opacity={0.5}

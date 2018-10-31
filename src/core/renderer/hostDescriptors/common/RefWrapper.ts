@@ -38,6 +38,21 @@ export class SimplePropertyWrapper<TInstance> extends PropertyWrapper<TInstance,
   }
 }
 
+export class SimplePropertyWrapperTest<TInstance> extends PropertyWrapper<TInstance, any> {
+  public constructor(propertyName: string,
+                     types: Array<new (...args: any[]) => any>) {
+    super(propertyName, types, (instance: TInstance, prop: any) => {
+      (instance as any)[propertyName] = prop;
+    });
+
+    this.OnRender((instance, prop) => {
+      if (instance !== null) {
+        (instance as any)[propertyName] = prop;
+      }
+    });
+  }
+}
+
 function containToInstance<TInstance>(instance: TInstance): TInstance {
   return instance;
 }

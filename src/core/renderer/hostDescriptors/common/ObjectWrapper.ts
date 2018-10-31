@@ -127,7 +127,7 @@ export abstract class WrapperDetails<TProps, TWrapped> {
 
       current = Object.getPrototypeOf(current);
     } while (current.constructor !== Object && current !== null);
-
+    this.wrapper.requiresR3RRemount = true;
   }
 
   public remount(newProps: any) {

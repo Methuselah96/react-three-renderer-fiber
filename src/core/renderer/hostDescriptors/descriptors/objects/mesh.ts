@@ -8,7 +8,7 @@ import {
 } from "three";
 import {IThreeElementPropsBase} from "../../common/IReactThreeRendererElement";
 import {default as Object3DDescriptorBase, IObject3DProps} from "../../common/object3DBase";
-import {IRenderableProp, RefWrapper, SimplePropertyWrapper} from "../../common/RefWrapper";
+import {IRenderableProp, RefWrapper, SimplePropertyWrapper, SimplePropertyWrapperTest} from "../../common/RefWrapper";
 
 // tslint:disable-next-line
 export interface ITestProps<TInstance> {
@@ -41,7 +41,7 @@ class MeshDescriptor extends Object3DDescriptorBase<IMeshProps, Mesh, MeshChildT
       .wrapProperties([
           new SimplePropertyWrapper("material", [Material]),
           new SimplePropertyWrapper("customDepthMaterial", [MeshDepthMaterial]),
-          new SimplePropertyWrapper("geometry", [Geometry, BufferGeometry]),
+          new SimplePropertyWrapperTest("geometry", [Geometry, BufferGeometry]),
         ],
       );
   }
