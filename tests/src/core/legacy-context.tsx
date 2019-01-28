@@ -8,7 +8,7 @@ import {testContainers} from "../index";
 
 const {div: testDiv} = testContainers;
 
-describe("legacy-context", () => {
+describe("context", () => {
   it("should pass context within components", (done) => {
     class ContextParent extends React.Component<{ value: string }> {
       public static childContextTypes = {
