@@ -8,56 +8,41 @@ import {testContainers} from "../index";
 
 const {div: testDiv} = testContainers;
 
-describe("legacy-context", () => {
+describe("context", () => {
   it("should pass context within components", (done) => {
+    const Context = React.createContext({ testValue: "unset" });
+
     class ContextParent extends React.Component<{ value: string }> {
-      public static childContextTypes = {
-        testValue: PropTypes.string,
-      };
-
-      public getChildContext() {
-        return {
-          testValue: this.props.value,
-        };
-      }
-
       public render() {
-        return <object3D>{
-          this.props.children
-        }</object3D>;
+        return (
+          <Context.Provider value={{ testValue: this.props.value }}>
+            { this.props.children }
+          </Context.Provider>
+        );
       }
     }
 
-    interface ITestContext {
-      testValue: string;
-    }
-
-    let testContext: ITestContext & {
-      from: string,
-    } = {
-      from: "init",
-      testValue: "unset",
-    };
+    let firstSet = false;
+    let secondSet = false;
+    let thirdSet = false;
 
     class ContextChild extends React.Component {
-      public static contextTypes = {
-        testValue: PropTypes.string,
-      };
+      public static contextType = Context;
+      public context!: React.ContextType<typeof Context>;
 
-      constructor(props: any, context: ITestContext) {
-        super(props, context);
-
-        testContext = Object.assign({}, context, {
-          from: "constructor",
-        });
+      public componentDidMount(): void {
+        if (this.context.testValue === "first-value") {
+          firstSet = true;
+        }
+        if (this.context.testValue === "third-value") {
+          thirdSet = true;
+        }
       }
 
-      public componentWillUpdate(nextProps: Readonly<any>,
-                                 nextState: Readonly<any>,
-                                 nextContext: ITestContext): void {
-        testContext = Object.assign({}, nextContext, {
-          from: "update",
-        });
+      public componentDidUpdate(): void {
+        if (this.context.testValue === "second-value") {
+          secondSet = true;
+        }
       }
 
       public render() {
@@ -66,10 +51,6 @@ describe("legacy-context", () => {
     }
 
     class ContextPassThrough extends React.Component {
-      constructor(props: any, context: ITestContext) {
-        super(props, context);
-      }
-
       public render() {
         return <object3D>{this.props.children}</object3D>;
       }
@@ -77,28 +58,34 @@ describe("legacy-context", () => {
 
     const container = new Object3D();
 
-    ReactThreeRenderer.render(<ContextParent
-      value={"first-value"}>
-      <ContextChild />
-    </ContextParent>, container, () => {
-      chai.expect(testContext.from).to.equal("constructor");
-      chai.expect(testContext.testValue).to.equal("first-value");
-
-      ReactThreeRenderer.render(<ContextParent
-        value={"second-value"}>
+    ReactThreeRenderer.render((
+      <ContextParent value={"first-value"}>
         <ContextChild />
-      </ContextParent>, container, () => {
-        chai.expect(testContext.from).to.equal("update");
-        chai.expect(testContext.testValue).to.equal("second-value");
+      </ContextParent>
+    ), container, () => {
+      chai.expect(firstSet).to.equal(true);
+      chai.expect(secondSet).to.equal(false);
+      chai.expect(thirdSet).to.equal(false);
 
-        ReactThreeRenderer.render(<ContextParent
-          value={"third-value"}>
-          <ContextPassThrough>
-            <ContextChild />
-          </ContextPassThrough>
-        </ContextParent>, container, () => {
-          chai.expect(testContext.from).to.equal("constructor");
-          chai.expect(testContext.testValue).to.equal("third-value");
+      ReactThreeRenderer.render((
+        <ContextParent value={"second-value"}>
+          <ContextChild />
+        </ContextParent>
+      ), container, () => {
+        chai.expect(firstSet).to.equal(true);
+        chai.expect(secondSet).to.equal(true);
+        chai.expect(thirdSet).to.equal(false);
+
+        ReactThreeRenderer.render((
+          <ContextParent value={"third-value"}>
+            <ContextPassThrough>
+              <ContextChild />
+            </ContextPassThrough>
+          </ContextParent>
+        ), container, () => {
+          chai.expect(firstSet).to.equal(true);
+          chai.expect(secondSet).to.equal(true);
+          chai.expect(thirdSet).to.equal(true);
 
           ReactThreeRenderer.unmountComponentAtNode(container, done);
         });
