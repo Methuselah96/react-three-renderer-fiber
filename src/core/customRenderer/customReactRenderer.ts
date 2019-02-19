@@ -29,22 +29,25 @@ export default class CustomReactRenderer<TReconcilerConfig extends //
 
   public render<TProps>(element: React.ReactElement<TProps> | null,
                         container: any,
-                        callback?: any): any | null;
+                        callback?: any,
+                        parentComponent?: any): any | null;
 
   public render(elements: ReadonlyArray<React.ReactElement<any> | null>,
                 container: any,
-                callback?: any): any[] | null ;
+                callback?: any,
+                parentComponent?: any): any[] | null ;
 
   public render<TProps>(element: //
                           React.ReactElement<TProps>
                           | ReadonlyArray<React.ReactElement<any> | null>
                           | null,
                         container: any,
-                        callback?: any): any | null {
+                        callback?: any,
+                        parentComponent?: any): any | null {
     return this.renderSubtreeIntoContainer(this.reconciler,
       CustomReconcilerConfig.contextSymbol,
       CustomReconcilerConfig.rootContainerSymbol,
-      null,
+      parentComponent || null,
       element,
       container,
       false,

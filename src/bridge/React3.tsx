@@ -122,7 +122,7 @@ class React3 extends PureComponent<IReact3Properties, any> {
         {this.props.children}
       </ReactThreeRendererContext>, this.div);
     } else {
-      ReactThreeRenderer.render(this.props.children as any, this.div);
+      ReactThreeRenderer.render(this.props.children as any, this.div, () => undefined, this);
     }
   }
 
