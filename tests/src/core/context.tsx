@@ -80,14 +80,14 @@ describe("context", () => {
     ReactThreeRenderer.render(<ContextParent
       value={"first-value"}>
       <ContextChild />
-    </ContextParent>, container, () => {
+    </ContextParent>, container, null, () => {
       chai.expect(testContext.from).to.equal("constructor");
       chai.expect(testContext.testValue).to.equal("first-value");
 
       ReactThreeRenderer.render(<ContextParent
         value={"second-value"}>
         <ContextChild />
-      </ContextParent>, container, () => {
+      </ContextParent>, container, null, () => {
         chai.expect(testContext.from).to.equal("update");
         chai.expect(testContext.testValue).to.equal("second-value");
 
@@ -96,7 +96,7 @@ describe("context", () => {
           <ContextPassThrough>
             <ContextChild />
           </ContextPassThrough>
-        </ContextParent>, container, () => {
+        </ContextParent>, container, null, () => {
           chai.expect(testContext.from).to.equal("constructor");
           chai.expect(testContext.testValue).to.equal("third-value");
 
@@ -165,7 +165,7 @@ describe("context", () => {
     ReactDOM.render(<div>
       Test!
       <ContextParentDOM value={"first-value"}>
-        <React3 contextPassThrough={ContextChild.contextTypes}>
+        <React3>
           <webGLRenderer width={55} height={55}>
             <scene>
               <ContextChild />
@@ -180,7 +180,7 @@ describe("context", () => {
       ReactDOM.render(<div>
         Test!
         <ContextParentDOM value={"second-value"}>
-          <React3 contextPassThrough={ContextChild.contextTypes}>
+          <React3>
             <webGLRenderer width={55} height={55}>
               <scene>
                 <ContextChild />
@@ -193,7 +193,7 @@ describe("context", () => {
         ReactDOM.render(<div>
           Test!
           <ContextParentDOM value={"third-value"}>
-            <React3 contextPassThrough={ContextChild.contextTypes}>
+            <React3>
               <webGLRenderer width={55} height={55}>
                 <scene>
                   <ContextChild />

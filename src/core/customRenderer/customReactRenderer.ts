@@ -29,10 +29,12 @@ export default class CustomReactRenderer<TReconcilerConfig extends //
 
   public render<TProps>(element: React.ReactElement<TProps> | null,
                         container: any,
+                        parentComponent?: React.Component<any, any> | null,
                         callback?: any): any | null;
 
   public render(elements: ReadonlyArray<React.ReactElement<any> | null>,
                 container: any,
+                parentComponent?: React.Component<any, any> | null,
                 callback?: any): any[] | null ;
 
   public render<TProps>(element: //
@@ -40,11 +42,12 @@ export default class CustomReactRenderer<TReconcilerConfig extends //
                           | ReadonlyArray<React.ReactElement<any> | null>
                           | null,
                         container: any,
+                        parentComponent?: React.Component<any, any> | null,
                         callback?: any): any | null {
     return this.renderSubtreeIntoContainer(this.reconciler,
       CustomReconcilerConfig.contextSymbol,
       CustomReconcilerConfig.rootContainerSymbol,
-      null,
+      parentComponent,
       element,
       container,
       false,
@@ -131,7 +134,7 @@ export default class CustomReactRenderer<TReconcilerConfig extends //
   protected renderSubtreeIntoContainer(reconciler: ReactReconciler.Reconciler<any, any, any, any>,
                                        contextSymbol: symbol,
                                        rootContainerSymbol: symbol,
-                                       parentComponent: React.Component<any, any> | null,
+                                       parentComponent: React.Component<any, any> | null | undefined,
                                        children: any,
                                        container: any,
                                        forceHydrate: boolean,

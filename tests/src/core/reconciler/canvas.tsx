@@ -16,7 +16,7 @@ describe("with a canvas", () => {
 
     const testCanvas = testContainers.canvas;
 
-    ReactThreeRenderer.render(<webGLRenderer ref={webGLRendererRef} width={5} height={5}/>, testCanvas, () => {
+    ReactThreeRenderer.render(<webGLRenderer ref={webGLRendererRef} width={5} height={5}/>, testCanvas, null, () => {
       chai.expect(rendererInstance).to.be.an.instanceOf(THREE.WebGLRenderer);
       chai.expect(rendererInstance.domElement).to.equal(testCanvas);
 

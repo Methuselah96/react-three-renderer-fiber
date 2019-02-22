@@ -213,7 +213,7 @@ Identifiers: [${Object.keys(refWrapperBase.wrappedRefs).join(", ")}]`);
       });
       wrapperBase.elementsCache = updatedElementCache;
 
-      ReactThreeRenderer.render(wrapperBase.elementsCache, container, () => {
+      ReactThreeRenderer.render(wrapperBase.elementsCache, container, null, () => {
         wrappers.forEach((wrapper) => {
           const value = newMap[wrapper.propertyName];
 
@@ -248,7 +248,7 @@ Identifiers: [${Object.keys(refWrapperBase.wrappedRefs).join(", ")}]`);
       }
       wrapperBase.elementsCache = updatedElementCache;
 
-      ReactThreeRenderer.render(wrapperBase.elementsCache, containerFunction(instance), () => {
+      ReactThreeRenderer.render(wrapperBase.elementsCache, containerFunction(instance), null, () => {
         // TODO check how can value has changed?
         if ((value != null) && (wrapperContainsRawType(wrapper, value))) {
           wrapper.rawTypeUpdateFunction(instance, value);

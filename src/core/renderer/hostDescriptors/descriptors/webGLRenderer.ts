@@ -267,7 +267,7 @@ class WebGLRendererDescriptor extends WrappedEntityDescriptor<RendererWrapperDet
       const cameraContainer = new THREE.Object3D();
       let camera: PerspectiveCamera;
 
-      ReactThreeRenderer.render(cameraElement, cameraContainer, function(this: PerspectiveCamera) {
+      ReactThreeRenderer.render(cameraElement, cameraContainer, null, function(this: PerspectiveCamera) {
         camera = this;
       });
     });

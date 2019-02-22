@@ -12,62 +12,12 @@ declare global {
   }
 }
 
-interface IContextWrapperProps {
-  testProps: number;
-  onContextUpdate: (newContext: any) => void;
-}
-
-class ContextReceiver extends React.Component<IContextWrapperProps, any> {
-  public static contextTypes: any;
-
-  constructor(props: IContextWrapperProps, context: any) {
-    super(props, context);
-
-    props.onContextUpdate(context);
-  }
-
-  public componentWillUpdate(nextProps: Readonly<IContextWrapperProps>,
-                             nextState: Readonly<any>,
-                             nextContext: any): void {
-    this.props.onContextUpdate(nextContext);
-  }
-
-  public componentWillReceiveProps(nextProps: Readonly<IContextWrapperProps>, nextContext: any): void {
-    this.props.onContextUpdate(nextContext);
-  }
-
-  public render() {
-    return <react-three-renderer-proxy testProps={this.props.testProps}/>;
-  }
-}
-
-interface IContextForwarderProps {
-  context: any;
-}
-
-class ReactThreeRendererContext extends React.Component<IContextForwarderProps> {
-  public static childContextTypes: any;
-
-  public getChildContext() {
-    return this.props.context;
-  }
-
-  public render(): any {
-    return this.props.children;
-  }
-}
-
-export interface IReact3Properties {
-  contextPassThrough?: any;
-}
-
-class React3 extends PureComponent<IReact3Properties, any> {
+class React3 extends PureComponent<any, any> {
   private renderCount: number;
   private div: any;
   private readonly fakeDOMContainerInfo: any;
-  private passThroughContext: any;
 
-  constructor(props: IReact3Properties, context: any) {
+  constructor(props: any, context: any) {
     super(props, context);
 
     this.div = null;
@@ -79,16 +29,7 @@ class React3 extends PureComponent<IReact3Properties, any> {
         name,
         setAttribute: () => {
           if (this.div) {
-            if (this.props.contextPassThrough) {
-              ReactThreeRendererContext.childContextTypes = this.props.contextPassThrough;
-
-              ReactThreeRenderer.render(<ReactThreeRendererContext
-                context={this.passThroughContext}>
-                {this.props.children}
-              </ReactThreeRendererContext>, this.div);
-            } else {
-              ReactThreeRenderer.render(this.props.children as any, this.div);
-            }
+            ReactThreeRenderer.render(this.props.children as any, this.div);
           }
         },
       });
@@ -114,25 +55,12 @@ class React3 extends PureComponent<IReact3Properties, any> {
   };
 
   public componentDidMount() {
-    if (this.props.contextPassThrough) {
-      ReactThreeRendererContext.childContextTypes = this.props.contextPassThrough;
-
-      ReactThreeRenderer.render(<ReactThreeRendererContext
-        context={this.passThroughContext}>
-        {this.props.children}
-      </ReactThreeRendererContext>, this.div);
-    } else {
-      ReactThreeRenderer.render(this.props.children as any, this.div);
-    }
+    ReactThreeRenderer.render(this.props.children as any, this.div, this);
   }
 
   public componentWillUnmount() {
     ReactThreeRenderer.unmountComponentAtNode(this.div);
   }
-
-  public onContextUpdate = (newContext: any) => {
-    this.passThroughContext = newContext;
-  };
 
   public render() {
     this.renderCount++;
@@ -144,26 +72,13 @@ class React3 extends PureComponent<IReact3Properties, any> {
 
     const implementation: any = null;
 
-    if (this.props.contextPassThrough) {
-      ContextReceiver.contextTypes = this.props.contextPassThrough;
-
-      return (<div ref={this.divRef}>{
-        (ReactDOM as any).createPortal(
-          <ContextReceiver testProps={this.renderCount}
-                           onContextUpdate={this.onContextUpdate}/>,
-          this.fakeDOMContainerInfo,
-          implementation,
-        )
-      }</div>);
-    } else {
-      return (<div ref={this.divRef}>{
-        (ReactDOM as any).createPortal(
-          <react-three-renderer-proxy testProps={this.renderCount}/>,
-          this.fakeDOMContainerInfo,
-          implementation,
-        )
-      }</div>);
-    }
+    return (<div ref={this.divRef}>{
+      (ReactDOM as any).createPortal(
+        <react-three-renderer-proxy testProps={this.renderCount}/>,
+        this.fakeDOMContainerInfo,
+        implementation,
+      )
+    }</div>);
   }
 }
 

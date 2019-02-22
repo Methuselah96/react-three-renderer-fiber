@@ -12,7 +12,7 @@ describe("generic", () => {
       childObject = renderer;
     }
 
-    ReactThreeRenderer.render(<object3D ref={object3DRef}/>, parentObject, () => {
+    ReactThreeRenderer.render(<object3D ref={object3DRef}/>, parentObject, null, () => {
       chai.expect(childObject).to.be.an.instanceOf(THREE.Object3D);
 
       chai.expect(childObject.parent).to.equal(parentObject);
